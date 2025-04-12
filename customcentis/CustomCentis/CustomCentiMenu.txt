@@ -1,0 +1,36 @@
+{"frames": {
+
+"CustomCentiMenu_BigReloadArrow.png":
+{
+	"frame": {"x":2,"y":2,"w":80,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
+	"sourceSize": {"w":80,"h":80}
+},
+"CustomCentiMenu_MainImage.png":
+{
+	"frame": {"x":84,"y":2,"w":488,"h":212},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":488,"h":212},
+	"sourceSize": {"w":488,"h":212}
+},
+"CustomCentiMenu_ReloadArrow.png":
+{
+	"frame": {"x":574,"y":2,"w":20,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+	"sourceSize": {"w":20,"h":20}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "CustomCentiMenu.png",
+	"format": "RGBA8888",
+	"size": {"w":596,"h":216},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b483d8f63a41020862f9442d790773b9:a3e860dc8ec79024b22e8be1294b7ecf:870ff5c79e72c207893067f56caac76b$"
+}
+}
