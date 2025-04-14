@@ -175,6 +175,13 @@ public static class CustomCentiCalls
             acrit.voidCreature = false;
             acrit.Winterized = false;
             acrit.superSizeMe = false;
+            self.canBeHitByWeapons = !flags2.Get(CannotBeHitByWeapons);
+            self.surfaceFriction = Above0(props.SurfaceFriction);
+            self.bounce = Above0(props.Bounce);
+            self.waterRetardationImmunity = Above0(props.WaterRetardationImmunity);
+            self.waterFriction = Above0(props.WaterFriction);
+            self.airFriction = Above0(props.AirFriction);
+            self.impactTreshhold = Above0(props.ImpactThreshold);
         }
     }
 

@@ -16,6 +16,22 @@ public static class CustomCentiHooks
     internal static int s_loc;
     internal static ILLabel? s_label;
 
+    public static bool On_PhysicalObject_get_SandstormImmune(Func<PhysicalObject, bool> orig, PhysicalObject self) => self is Centipede c && c.Template.breedParameters is CustomCentiBreedParams props ? props.Flags2.Get(SandstormImmune) : orig(self);
+
+    public static void On_Creature_Deafen(On.Creature.orig_Deafen orig, Creature self, int df)
+    {
+        if (self.Template.breedParameters is CustomCentiBreedParams props && props.Flags2.Get(CannotBeDeafened))
+            return;
+        orig(self, df);
+    }
+
+    public static void On_Creature_Blind(On.Creature.orig_Blind orig, Creature self, int blnd)
+    {
+        if (self.Template.breedParameters is CustomCentiBreedParams props && props.Flags2.Get(CannotBeBlinded))
+            return;
+        orig(self, blnd);
+    }
+
     public static void On_Player_Collide(On.Player.orig_Collide orig, Player self, PhysicalObject otherObject, int myChunk, int otherChunk)
     {
         if (self.Consious && !self.isNPC && self.FoodInStomach < self.MaxFoodInStomach && otherObject is Centipede c && c.grabbedBy?.Count is null or 0 && c.abstractCreature.creatureTemplate.breedParameters is CustomCentiBreedParams props && props.Flags.Get(SmallFood | AutomaticPickUp) && self.grasps is Creature.Grasp[] g && g.Length >= 2)

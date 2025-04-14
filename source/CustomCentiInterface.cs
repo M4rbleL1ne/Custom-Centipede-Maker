@@ -274,7 +274,7 @@ public sealed class CustomCentiInterface : OptionInterface
         list.Add(new("Centiwing", 4));
         list.Add(new("RedCentipede", 5));
         list.Add(new("AquaCenti", 6));
-        MakeComboBox(interUI, tab, s_Inherit, list, 300f, 22f, string.Empty, 200f, "Choose a parent for your centipede. Your centipede cannot attack creatures who have the same parent.");
+        MakeComboBox(interUI, tab, s_Inherit, list, 300f, 22f, string.Empty, 200f, "Choose a parent for your centipede. Your centipede can't attack creatures who have the same parent.");
         //MakeReloadArrow(interUI, _rlds, tab, s_Inherit);
         var flag = _current is CustomCentiBreedParams c && c._requiresReloading;
         var arrow = new ReloadArrow(new() { x = 250f, y = 20f }, "CustomCentiMenu_BigReloadArrow") { color = flag ? s_coolRed : s_coolGreen, description = flag ? s_Changes_detected : s_No_changes_detected, _bumpBehav = button2.bumpBehav, _bumpBehav2 = button3.bumpBehav };
@@ -352,6 +352,7 @@ public sealed class CustomCentiInterface : OptionInterface
             .AppendLine("- You can edit the .tp file manually, though it's not recommended.")
             .AppendLine("  Look at the Example.tp file found in the same folder as the CustomCentis.dll")
             .AppendLine("  (probably hidden in the Steam workshop folder).")
+            .AppendLine("- Enabling/disabling custom centipedes requires you to restart the game.")
             .AppendLine("- To access the ExtEnum of your centipede while making a mod that depends on CustomCentis.dll,")
             .AppendLine("  use the NAME of the .tp file as the ONLY argument when calling the constructor of")
             .AppendLine("  CreatureTemplate.Type:")
@@ -389,6 +390,7 @@ public sealed class CustomCentiInterface : OptionInterface
         MakeFloatBoxes(interUI, tab, ["Meat Min", "Meat Max", "Scaryness", "Dangerous To Player"], 0f, 210f, ["The minimum amount of food the centipede gives to the player after eating it. Requires \"Small Food\" to be set to false.", "The maximum amount of food the centipede gives to the player after eating it. Requires \"Small Food\" to be set to false.", "How much the centipede scares other creatures.", "How dangerous the centipede is to the player."]);
         MakeTextBox(interUI, tab, "Dev Name", 0f, 330f, 145f, true, "The name of the centipede on the DevTools map page.");
         MakeColorPicker(interUI, tab, "Dev Color", 0f, 360f, "The color of the name of the centipede on the DevTools map page.");
+        MakeCheckBox(interUI, tab, "Does Not Use Dens", 300f, 0f, "Whether or not the centipede uses creature dens.");
 
         tab = tabs[K_Movement];
         MakeTitle(tab, "Movement");
@@ -403,6 +405,7 @@ public sealed class CustomCentiInterface : OptionInterface
         MakeFloatBoxes(interUI, tab, ["Head Velocity Factor", "Head Global Velocity Factor", "Velocity Factor", "Global Velocity Factor"], 0f, 360f, ["How fast the centipede moves its head.", "How fast the centipede moves its head whether it is conscious or not.", "How fast the centipede moves.", "How fast the centipede moves whether it is conscious or not."]);
         MakeCheckBox(interUI, tab, "Flying", 0f, 480f, "Whether or not the centipede can fly like a Centiwing.");
         MakeFloatBox(interUI, tab, "Global Flying Velocity Factor", 0f, 510f, "How fast the centipede flies. Requires \"Flying\" to be set to true.");
+        MakeFloatBoxes(interUI, tab, ["Water Pathing Resistance", "Water Retardation Immunity", "Water Friction", "Air Friction", "Surface Friction", "Impact Threshold", "Bounce", "Off Screen Speed"], 300f, 0f, ["How strongly the water reacts to the movement of the centipede.", "How strongly the centipede resists the slowing effect of water.", "How strong the action of water on the centipede is.", "How strong the action of air on the centipede is.", "How strong the action of terrain on the centipede is.", "The velocity threshold from which the centipede violently impacts terrain.", "How bouncy the centipede is.", "How fast the centipede moves when it's far from the player's room."]);
 
         tab = tabs[K_Resistance];
         MakeTitle(tab, "Resistance");
@@ -417,8 +420,10 @@ public sealed class CustomCentiInterface : OptionInterface
         MakeCheckBoxes(interUI, tab, ["Weak To Stun", "No Violence Stun"], 0f, 150f, ["Whether or not the centipede is stunned easily.", "Whether or not the centipede should be stunned when injured."]);
         MakeFloatBoxes(interUI, tab, ["Base Stun Resistance", "Explosion Stun Resistance"], 0f, 210f, ["How resistant the centipede is to damage stun.", "How resistant the centipede is to explosion damage stun."]);
         MakeCheckBox(interUI, tab, "WormGrass Immune", 0f, 270f, "Whether or not the centipede should ignore and be ignored by WormGrass.");
-        MakeComboBoxes(interUI, tab, ["Lava Immune", "Tentacle Immune", "Hypothermia Immune"], s_nullYesNo, 0f, 300f, string.Empty, 65f, ["Whether or not the centipede should ignore lava/acid water damage.", "Whether or not the centipede should be uncatchable by creature tentacles (Daddy Long Legs, Daddy Corruption, WormGrass).", "Whether or not the centipede is immune to cold."]);
-        MakeCheckBox(interUI, tab, "Spore Cloud Immune", 0f, 390f, "Whether or not the centipede should ignore poison damage from spore clouds (like Puff Ball clouds).");
+        MakeComboBoxes(interUI, tab, ["Lava Immune", "Tentacle Immune", "Hypothermia Immune"], s_nullYesNo, 0f, 300f, string.Empty, 65f, ["Whether or not the centipede should ignore lava/acid water damage.", "Whether or not the centipede should be uncatchable by creature tentacles (Daddy Long Legs, Daddy Corruption, WormGrass, Loaches).", "Whether or not the centipede is immune to cold."]);
+        MakeCheckBoxes(interUI, tab, ["Spore Cloud Immune", "Daddy Corruption Immune", "Sandstorm Immune", "Cannot Be Hit By Weapons", "Cannot Be Blinded"], 0f, 390f, ["Whether or not the centipede should ignore poison damage from spore clouds (like Puff Ball clouds).", "Whether or not Daddy Corruption can't eat the centipede.", "Whether or not the centipede should be immune to the Sandstorm effect.", "Whether or not the centipede can't be hit by thrown weapons such as spears.", "Whether or not the centipede can't be blinded, for example by flashbangs."]);
+        MakeCheckBox(interUI, tab, "Cannot Be Deafened", 300f, 0f, "Whether or not the centipede can't be deafened, for example by cherrybombs.");
+        MakeFloatBoxes(interUI, tab, ["Blunt Damage Resistance", "Blunt Stun Resistance", "Water Damage Resistance", "Water Stun Resistance", "Stab Damage Resistance", "Stab Stun Resistance", "Bite Damage Resistance", "Bite Stun Resistance", "Electric Damage Resistance", "Electric Stun Resistance"], 300f, 30f, ["How resistant the centipede is to blunt damage (rocks for example).", "How resistant the centipede is to blunt damage stun (rocks for example).", "How resistant the centipede is to water damage (BoxWorm steam for example).", "How resistant the centipede is to water damage stun (BoxWorm steam for example).", "How resistant the centipede is to stab damage (spears for example).", "How resistant the centipede is to stab damage stun (spears for example).", "How resistant the centipede is to bite damage (Lizard bites for example).", "How resistant the centipede is to bite damage stun (Lizard bites for example).", "How resistant the centipede is to electric damage (centipede shocks for example). Doesn't apply to Zap Coils.", "How resistant the centipede is to electric damage stun (centipede shocks for example). Doesn't apply to Zap Coils."]);
 
         tab = tabs[K_Body];
         MakeTitle(tab, "Body");
@@ -1693,7 +1698,7 @@ public sealed class CustomCentiInterface : OptionInterface
                     }
                 }
             }
-            c.Relationships = rela.ToArray();
+            c.Relationships = [.. rela];
             c._realRelationships.Clear();
             c._critob.SetCustomRelationships();
         }

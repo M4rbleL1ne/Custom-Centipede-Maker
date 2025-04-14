@@ -91,12 +91,21 @@ public static class CustomCentiTemplates
                     Type = CreatureTemplate.Relationship.Type.Afraid,
                     Intensity = 1f
                 });
-            props.Relationships = customRels.ToArray();
+            props.Relationships = [.. customRels];
         }
     }
 
     internal static void Centiwing(CustomCentiBreedParams props)
     {
+        props.SurfaceFriction = .4f;
+        props.Bounce = .1f;
+        props.WaterFriction = .96f;
+        props.AirFriction = .999f;
+        props.ImpactThreshold = 1f;
+        props.WaterPathingResistance = 1f;
+        props.OffScreenSpeed = .3f;
+        props.ElectricDamageResistance = 102f;
+        props.ElectricStunResistance = 102f;
         props.SegmentSprite = "CentipedeSegment";
         props.LegASprite = "CentipedeLegA";
         props.LegBSprite = "CentipedeLegB";
@@ -180,6 +189,15 @@ public static class CustomCentiTemplates
 
     internal static void RedCentipede(CustomCentiBreedParams props)
     {
+        props.SurfaceFriction = .4f;
+        props.Bounce = .1f;
+        props.WaterFriction = .96f;
+        props.AirFriction = .999f;
+        props.ImpactThreshold = 1f;
+        props.WaterPathingResistance = 1f;
+        props.OffScreenSpeed = .3f;
+        props.ElectricDamageResistance = 102f;
+        props.ElectricStunResistance = 102f;
         props.SegmentSprite = "CentipedeSegment";
         props.LegASprite = "CentipedeLegA";
         props.LegBSprite = "CentipedeLegB";
@@ -256,6 +274,17 @@ public static class CustomCentiTemplates
 
     internal static void AquaCenti(CustomCentiBreedParams props)
     {
+        props.SurfaceFriction = .4f;
+        props.Bounce = .1f;
+        props.WaterFriction = .96f;
+        props.AirFriction = .999f;
+        props.ImpactThreshold = 1f;
+        props.WaterPathingResistance = 1f;
+        props.OffScreenSpeed = .3f;
+        props.ElectricDamageResistance = 102f;
+        props.ElectricStunResistance = 102f;
+        props.WaterDamageResistance = 102f;
+        props.WaterStunResistance = 102f;
         props.SegmentSprite = "CentipedeSegment";
         props.AdditionalShellTextureShader = "AquapedeBody";
         props.LegASprite = "CentipedeLegA";
@@ -338,6 +367,15 @@ public static class CustomCentiTemplates
 
     internal static void SmallCentipede(CustomCentiBreedParams props)
     {
+        props.SurfaceFriction = .4f;
+        props.Bounce = .1f;
+        props.WaterFriction = .96f;
+        props.AirFriction = .999f;
+        props.ImpactThreshold = 1f;
+        props.WaterPathingResistance = 1f;
+        props.OffScreenSpeed = .3f;
+        props.ElectricDamageResistance = 102f;
+        props.ElectricStunResistance = 102f;
         props.SegmentSprite = "CentipedeSegment";
         props.LegASprite = "CentipedeLegA";
         props.LegBSprite = "CentipedeLegB";
@@ -405,6 +443,15 @@ public static class CustomCentiTemplates
 
     internal static void Centipede(CustomCentiBreedParams props)
     {
+        props.SurfaceFriction = .4f;
+        props.Bounce = .1f;
+        props.WaterFriction = .96f;
+        props.AirFriction = .999f;
+        props.ImpactThreshold = 1f;
+        props.WaterPathingResistance = 1f;
+        props.OffScreenSpeed = .3f;
+        props.ElectricDamageResistance = 102f;
+        props.ElectricStunResistance = 102f;
         props.SegmentSprite = "CentipedeSegment";
         props.LegASprite = "CentipedeLegA";
         props.LegBSprite = "CentipedeLegB";
@@ -488,12 +535,20 @@ public static class CustomCentiTemplates
         template.pathingPreferencesTiles[(int)AItile.Accessibility.Climb] = props.Flags.Get(WaterOnly) ? new(10f, Unwanted) : new(1f, Allowed);
         template.pathingPreferencesTiles[(int)AItile.Accessibility.Wall] = props.Flags.Get(WaterOnly) ? new(100f, Unwanted) : new(1f, Allowed);
         template.pathingPreferencesTiles[(int)AItile.Accessibility.Ceiling] = props.Flags.Get(WaterOnly) ? new(100f, Unwanted) : new(1f, Allowed);
-        template.damageRestistances[(int)Creature.DamageType.Water, 0] = props.Flags.Get(Swimming) ? 102f : 0f;
-        template.damageRestistances[(int)Creature.DamageType.Water, 1] = props.Flags.Get(Swimming) ? 102f : 0f;
+        template.damageRestistances[(int)Creature.DamageType.Water, 0] = props.WaterDamageResistance;
+        template.damageRestistances[(int)Creature.DamageType.Water, 1] = props.WaterStunResistance;
         template.damageRestistances[(int)Creature.DamageType.Explosion, 0] = props.ExplosionResistance;
         template.damageRestistances[(int)Creature.DamageType.Explosion, 1] = props.ExplosionStunResistance;
+        template.damageRestistances[(int)Creature.DamageType.Electric, 0] = props.ElectricDamageResistance;
+        template.damageRestistances[(int)Creature.DamageType.Electric, 1] = props.ElectricStunResistance;
+        template.damageRestistances[(int)Creature.DamageType.Bite, 0] = props.BiteDamageResistance;
+        template.damageRestistances[(int)Creature.DamageType.Bite, 1] = props.BiteStunResistance;
+        template.damageRestistances[(int)Creature.DamageType.Blunt, 0] = props.BluntDamageResistance;
+        template.damageRestistances[(int)Creature.DamageType.Blunt, 1] = props.BluntStunResistance;
+        template.damageRestistances[(int)Creature.DamageType.Stab, 0] = props.StabDamageResistance;
+        template.damageRestistances[(int)Creature.DamageType.Stab, 1] = props.StabStunResistance;
         template.waterRelationship = props.Flags.Get(WaterOnly) ? CreatureTemplate.WaterRelationship.WaterOnly : (props.Flags.Get(Swimming) ? CreatureTemplate.WaterRelationship.Amphibious : CreatureTemplate.WaterRelationship.AirAndSurface);
-        template.preBakedPathingAncestor = StaticWorld.GetCreatureTemplate(props.Flags.Get(Flying) ? (props.Flags.Get(Swimming) ? CreatureTemplate.Type.BigEel : CreatureTemplate.Type.Fly) : (props.Flags.Get(Swimming) ? CreatureTemplate.Type.JetFish : CreatureTemplate.Type.BlueLizard));
+        template.preBakedPathingAncestor = StaticWorld.GetCreatureTemplate(props.Flags.Get(Flying) ? (props.Flags.Get(Swimming) ? CreatureTemplate.Type.BigEel : CreatureTemplate.Type.Fly) : (props.Flags.Get(Swimming) ? CreatureTemplate.Type.Leech : CreatureTemplate.Type.BlueLizard));
         template.meatPoints = props.Flags.Get(SmallFood) ? 0 : 1;
         critob.ShelterDanger = props.Flags.Get(SmallFood) ? ShelterDanger.Safe : ShelterDanger.Hostile;
         template.canFly = props.Flags.Get(Flying);
@@ -532,5 +587,9 @@ public static class CustomCentiTemplates
         template.communityInfluence = props.CommunityInfluence;
         template.scaryness = props.Scaryness;
         template.baseStunResistance = props.BaseStunResistance;
+        template.waterPathingResistance = props.WaterPathingResistance;
+        template.offScreenSpeed = props.OffScreenSpeed;
+        template.daddyCorruptionImmune = props.Flags2.Get(DaddyCorruptionImmune);
+        template.doesNotUseDens = props.Flags2.Get(DoesNotUseDens);
     }
 }

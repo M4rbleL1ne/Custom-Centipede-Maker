@@ -74,6 +74,9 @@ static class InternalEnable
     internal static On.StaticWorld.hook_InitStaticWorld s_On_StaticWorld_InitStaticWorld = On_StaticWorld_InitStaticWorld;
     internal static On.MultiplayerUnlocks.hook_ctor s_On_MultiplayerUnlocks_ctor = On_MultiplayerUnlocks_ctor;
     internal static On.ModManager.hook_ModFolderHasDLLContent s_On_ModManager_ModFolderHasDLLContent = On_ModManager_ModFolderHasDLLContent;
+    internal static On.Creature.hook_Blind s_On_Creature_Blind = On_Creature_Blind;
+    internal static On.Creature.hook_Deafen s_On_Creature_Deafen = On_Creature_Deafen;
+    internal static Func<Func<PhysicalObject, bool>, PhysicalObject, bool> s_On_PhysicalObject_get_SandstormImmune = On_PhysicalObject_get_SandstormImmune;
     //internal static On.Menu.MainMenu.hook_ctor s_On_MainMenu_ctor = On_MainMenu_ctor;
 
     internal static void Dispose()
@@ -141,6 +144,9 @@ static class InternalEnable
         s_On_MultiplayerUnlocks_ctor = null!;
         s_IL_AbstractCreature_setCustomFlags = null!;
         s_On_ModManager_ModFolderHasDLLContent = null!;
+        s_On_Creature_Blind = null!;
+        s_On_Creature_Deafen = null!;
+        s_On_PhysicalObject_get_SandstormImmune = null!;
         //s_On_MainMenu_ctor = null!;
     }
 }

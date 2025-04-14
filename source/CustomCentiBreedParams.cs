@@ -10,6 +10,7 @@ using UnityEngine;
 using RWCustom;
 using System.IO;
 using System.Runtime.InteropServices;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 namespace CustomCentisMod;
 
@@ -193,7 +194,13 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
         Grabability_HasValue = B14,
         ShellColorType_HasValue = B15,
         SecondaryShellColorType_HasValue = B16,
-        SporeCloudImmune = B17;
+        SporeCloudImmune = B17,
+        DaddyCorruptionImmune = B18,
+        DoesNotUseDens = B19,
+        CannotBeHitByWeapons = B20,
+        SandstormImmune = B21,
+        CannotBeBlinded = B22,
+        CannotBeDeafened = B23;
     public int FoodPoints, Bites, MinChunkAmount, MaxChunkAmount, WingVariations, StandardKillScore, AbstractedLaziness, ShortCutSegments, BigKillScore,
         SmallKillScore, PatherStepsPerFrame, ExpeditionScore;
     public float BodyChunkRadBonus, BodyChunkMassBonus, ConnectionElasticityReduction, VelocityFactor, HeadVelocityFactor, MaxSize, MinSize, PreyTrackerWeight,
@@ -202,7 +209,9 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
         BodySizeEstimate, VisualRadius, WaterVision, ThroughSurfaceVision, MovementBasedVision, DangerousToPlayer, LungCapacity, CommunityInfluence, MeatMin, MeatMax,
         Scaryness, MinBuoyancy, MaxBuoyancy, SureToGetPreyDistance, HeadGlobalVelocityFactor, BaseStunResistance, ExplosionStunResistance, SpikeScaleFactor,
         ShockResistanceReductionFactor, SecondaryShellColorBonus, GlobalVelocityFactor, GlobalFlyingVelocityFactor, DamageReductionFactor, DeadShellChance,
-        GrabbedShockChargeReduction;
+        GrabbedShockChargeReduction, WaterPathingResistance = 1f, BluntDamageResistance, BluntStunResistance, WaterDamageResistance, WaterStunResistance,
+        StabDamageResistance, StabStunResistance, BiteDamageResistance, BiteStunResistance, ElectricDamageResistance = 102f, ElectricStunResistance = 102f, OffScreenSpeed = .3f,
+        SurfaceFriction = .4f, Bounce = .1f, WaterRetardationImmunity, WaterFriction = .96f, AirFriction = .999f, ImpactThreshold = 1f;// default values for backwards compat
     public ChunkRadType BodyChunkRadType;
     public HeadMoveType HeadVelocityType;
     public SizeGenerationType BodySizeGenerationType;
@@ -376,7 +385,31 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
         K_WantsToShock = -1606634007,
         K_Name = 266367750,
         K_Path = -345578410,
-        K_SporeCloudImmune = 2031708194;
+        K_SporeCloudImmune = 2031708194,
+        K_WaterPathingResistance = -81949140,
+        K_BluntDamageResistance = -1786216348,
+        K_BluntStunResistance = -251157035,
+        K_WaterDamageResistance = 491430956,
+        K_WaterStunResistance = 427852573,
+        K_StabDamageResistance = 130930369,
+        K_StabStunResistance = -1332118976,
+        K_BiteDamageResistance = 3242063,
+        K_BiteStunResistance = 308168434,
+        K_ElectricDamageResistance = 1209884906,
+        K_ElectricStunResistance = -1154932625,
+        K_OffScreenSpeed = 1835580041,
+        K_SurfaceFriction = 1231787150,
+        K_Bounce = 590941277,
+        K_WaterRetardationImmunity = -910160173,
+        K_WaterFriction = -641427070,
+        K_AirFriction = 1470716041,
+        K_ImpactThreshold = 146532386,
+        K_DaddyCorruptionImmune = 129972033,
+        K_DoesNotUseDens = -1993820324,
+        K_CannotBeHitByWeapons = 1195975270,
+        K_SandstormImmune = -625428655,
+        K_CannotBeBlinded = -2004324421,
+        K_CannotBeDeafened = -311106403;
     internal static Dictionary<string, int> s_fieldHashDict = new()
     {
         { nameof(Swimming), K_Swimming },
@@ -533,6 +566,30 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
         { "Name", K_Name },
         { nameof(Path), K_Path },
         { nameof(SporeCloudImmune), K_SporeCloudImmune },
+        { nameof(WaterPathingResistance), K_WaterPathingResistance },
+        { nameof(BluntDamageResistance), K_BluntDamageResistance },
+        { nameof(BluntStunResistance), K_BluntStunResistance },
+        { nameof(WaterDamageResistance), K_WaterDamageResistance },
+        { nameof(WaterStunResistance), K_WaterStunResistance },
+        { nameof(StabDamageResistance), K_StabDamageResistance },
+        { nameof(StabStunResistance), K_StabStunResistance },
+        { nameof(BiteDamageResistance), K_BiteDamageResistance },
+        { nameof(BiteStunResistance), K_BiteStunResistance },
+        { nameof(ElectricDamageResistance), K_ElectricDamageResistance },
+        { nameof(ElectricStunResistance), K_ElectricStunResistance },
+        { nameof(OffScreenSpeed), K_OffScreenSpeed },
+        { nameof(SurfaceFriction), K_SurfaceFriction },
+        { nameof(Bounce), K_Bounce },
+        { nameof(WaterRetardationImmunity), K_WaterRetardationImmunity },
+        { nameof(WaterFriction), K_WaterFriction },
+        { nameof(AirFriction), K_AirFriction },
+        { nameof(ImpactThreshold), K_ImpactThreshold },
+        { nameof(DaddyCorruptionImmune), K_DaddyCorruptionImmune },
+        { nameof(DoesNotUseDens), K_DoesNotUseDens },
+        { nameof(CannotBeHitByWeapons), K_CannotBeHitByWeapons },
+        { nameof(SandstormImmune), K_SandstormImmune },
+        { nameof(CannotBeBlinded), K_CannotBeBlinded },
+        { nameof(CannotBeDeafened), K_CannotBeDeafened }
     };
 
     public CreatureTemplate.Relationship DefaultRelationship
@@ -646,6 +703,24 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
                     break;
                 case K_SporeCloudImmune:
                     Flags2.Set(SporeCloudImmune, ParseBool(value));
+                    break;
+                case K_DaddyCorruptionImmune:
+                    Flags2.Set(DaddyCorruptionImmune, ParseBool(value));
+                    break;
+                case K_DoesNotUseDens:
+                    Flags2.Set(DoesNotUseDens, ParseBool(value));
+                    break;
+                case K_CannotBeHitByWeapons:
+                    Flags2.Set(CannotBeHitByWeapons, ParseBool(value));
+                    break;
+                case K_SandstormImmune:
+                    Flags2.Set(SandstormImmune, ParseBool(value));
+                    break;
+                case K_CannotBeBlinded:
+                    Flags2.Set(CannotBeBlinded, ParseBool(value));
+                    break;
+                case K_CannotBeDeafened:
+                    Flags2.Set(CannotBeDeafened, ParseBool(value));
                     break;
                 case K_Throwable:
                     Flags2.Set(Throwable, ParseBool(value));
@@ -860,6 +935,60 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
                     break;
                 case K_GrabbedShockChargeReduction:
                     GrabbedShockChargeReduction = ParseFloat(value);
+                    break;
+                case K_WaterPathingResistance:
+                    WaterPathingResistance = ParseFloat(value);
+                    break;
+                case K_BluntDamageResistance:
+                    BluntDamageResistance = ParseFloat(value);
+                    break;
+                case K_BluntStunResistance:
+                    BluntStunResistance = ParseFloat(value);
+                    break;
+                case K_WaterDamageResistance:
+                    WaterDamageResistance = ParseFloat(value);
+                    break;
+                case K_WaterStunResistance:
+                    WaterStunResistance = ParseFloat(value);
+                    break;
+                case K_StabDamageResistance:
+                    StabDamageResistance = ParseFloat(value);
+                    break;
+                case K_StabStunResistance:
+                    StabStunResistance = ParseFloat(value);
+                    break;
+                case K_BiteDamageResistance:
+                    BiteDamageResistance = ParseFloat(value);
+                    break;
+                case K_BiteStunResistance:
+                    BiteStunResistance = ParseFloat(value);
+                    break;
+                case K_ElectricDamageResistance:
+                    ElectricDamageResistance = ParseFloat(value);
+                    break;
+                case K_ElectricStunResistance:
+                    ElectricStunResistance = ParseFloat(value);
+                    break;
+                case K_OffScreenSpeed:
+                    OffScreenSpeed = ParseFloat(value);
+                    break;
+                case K_SurfaceFriction:
+                    SurfaceFriction = ParseFloat(value);
+                    break;
+                case K_Bounce:
+                    Bounce = ParseFloat(value);
+                    break;
+                case K_WaterRetardationImmunity:
+                    WaterRetardationImmunity = ParseFloat(value);
+                    break;
+                case K_WaterFriction:
+                    WaterFriction = ParseFloat(value);
+                    break;
+                case K_AirFriction:
+                    AirFriction = ParseFloat(value);
+                    break;
+                case K_ImpactThreshold:
+                    ImpactThreshold = ParseFloat(value);
                     break;
                 case K_BodyChunkRadType:
                     BodyChunkRadType = ParseEnum<ChunkRadType>(value);
@@ -1146,7 +1275,7 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
                 tpl.damageRestistances[(int)Creature.DamageType.Water, 0] = flag ? 102f : 0f;
                 tpl.damageRestistances[(int)Creature.DamageType.Water, 1] = flag ? 102f : 0f;
                 tpl.waterRelationship = Flags.Get(WaterOnly) ? CreatureTemplate.WaterRelationship.WaterOnly : (flag ? CreatureTemplate.WaterRelationship.Amphibious : CreatureTemplate.WaterRelationship.AirAndSurface);
-                tpl.preBakedPathingAncestor = StaticWorld.GetCreatureTemplate(Flags.Get(Flying) ? (flag ? CreatureTemplate.Type.BigEel : CreatureTemplate.Type.Fly) : (flag ? CreatureTemplate.Type.JetFish : CreatureTemplate.Type.BlueLizard));
+                tpl.preBakedPathingAncestor = StaticWorld.GetCreatureTemplate(Flags.Get(Flying) ? (flag ? CreatureTemplate.Type.BigEel : CreatureTemplate.Type.Fly) : (flag ? CreatureTemplate.Type.Leech : CreatureTemplate.Type.BlueLizard));
                 break;
             case K_AutomaticPickUp:
                 Flags.Set(AutomaticPickUp, config.Value);
@@ -1167,13 +1296,35 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
                 tpl.canFly = flag;
                 tpl.pathingPreferencesTiles[(int)AItile.Accessibility.Air] = flag ? new(1f, Allowed) : new(60f, IllegalTile);
                 tpl.pathingPreferencesConnections[(int)MovementConnection.MovementType.NPCTransportation].resistance = flag ? 10f : 25f;
-                tpl.preBakedPathingAncestor = StaticWorld.GetCreatureTemplate(flag ? (Flags.Get(Swimming) ? CreatureTemplate.Type.BigEel : CreatureTemplate.Type.Fly) : (Flags.Get(Swimming) ? CreatureTemplate.Type.JetFish : CreatureTemplate.Type.BlueLizard));
+                tpl.preBakedPathingAncestor = StaticWorld.GetCreatureTemplate(flag ? (Flags.Get(Swimming) ? CreatureTemplate.Type.BigEel : CreatureTemplate.Type.Fly) : (Flags.Get(Swimming) ? CreatureTemplate.Type.Leech : CreatureTemplate.Type.BlueLizard));
                 break;
             case K_DetectsAnnoyingCollisions:
                 Flags.Set(DetectsAnnoyingCollisions, config.Value);
                 break;
             case K_WeakToStun:
                 Flags.Set(WeakToStun, config.Value);
+                break;
+            case K_DaddyCorruptionImmune:
+                flag = config.Value;
+                _template.daddyCorruptionImmune = flag;
+                Flags2.Set(DaddyCorruptionImmune, flag);
+                break;
+            case K_DoesNotUseDens:
+                flag = config.Value;
+                _template.doesNotUseDens = flag;
+                Flags2.Set(DoesNotUseDens, flag);
+                break;
+            case K_CannotBeHitByWeapons:
+                Flags2.Set(CannotBeHitByWeapons, config.Value);
+                break;
+            case K_SandstormImmune:
+                Flags2.Set(SandstormImmune, config.Value);
+                break;
+            case K_CannotBeBlinded:
+                Flags2.Set(CannotBeBlinded, config.Value);
+                break;
+            case K_CannotBeDeafened:
+                Flags2.Set(CannotBeDeafened, config.Value);
                 break;
             case K_GlowingHead:
                 Flags.Set(GlowingHead, config.Value);
@@ -1339,6 +1490,12 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
             K_TooBigForShelter => Flags.Get(TooBigForShelter),
             K_WantsToShock => Flags.Get(WantsToShock),
             K_SporeCloudImmune => Flags2.Get(SporeCloudImmune),
+            K_DaddyCorruptionImmune => Flags2.Get(DaddyCorruptionImmune),
+            K_DoesNotUseDens => Flags2.Get(DoesNotUseDens),
+            K_CannotBeHitByWeapons => Flags2.Get(CannotBeHitByWeapons),
+            K_SandstormImmune => Flags2.Get(SandstormImmune),
+            K_CannotBeBlinded => Flags2.Get(CannotBeBlinded),
+            K_CannotBeDeafened => Flags2.Get(CannotBeDeafened),
             _ => false//throw new ArgumentException("Invalid key: " + s),
         };
     }
@@ -2236,8 +2393,74 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
             case K_GrabbedShockChargeReduction:
                 GrabbedShockChargeReduction = val;
                 break;
-            /*default:
-                throw new ArgumentException("Invalid key: " + s);*/
+            case K_WaterPathingResistance:
+                WaterPathingResistance = val;
+                _template.waterPathingResistance = val;
+                break;
+            case K_BluntDamageResistance:
+                BluntDamageResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Blunt, 0] = val;
+                break;
+            case K_BluntStunResistance:
+                BluntStunResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Blunt, 1] = val;
+                break;
+            case K_WaterDamageResistance:
+                WaterDamageResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Water, 0] = val;
+                break;
+            case K_WaterStunResistance:
+                WaterStunResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Water, 1] = val;
+                break;
+            case K_StabDamageResistance:
+                StabDamageResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Stab, 0] = val;
+                break;
+            case K_StabStunResistance:
+                StabStunResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Stab, 1] = val;
+                break;
+            case K_BiteDamageResistance:
+                BiteDamageResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Bite, 0] = val;
+                break;
+            case K_BiteStunResistance:
+                BiteStunResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Bite, 1] = val;
+                break;
+            case K_ElectricDamageResistance:
+                ElectricDamageResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Electric, 0] = val;
+                break;
+            case K_ElectricStunResistance:
+                ElectricStunResistance = val;
+                _template.damageRestistances[(int)Creature.DamageType.Electric, 1] = val;
+                break;
+            case K_OffScreenSpeed:
+                OffScreenSpeed = val;
+                _template.offScreenSpeed = val;
+                break;
+            case K_SurfaceFriction:
+                SurfaceFriction = val;
+                break;
+            case K_Bounce:
+                Bounce = val;
+                break;
+            case K_WaterRetardationImmunity:
+                WaterRetardationImmunity = val;
+                break;
+            case K_WaterFriction:
+                WaterFriction = val;
+                break;
+            case K_AirFriction:
+                AirFriction = val;
+                break;
+            case K_ImpactThreshold:
+                ImpactThreshold = val;
+                break;
+                /*default:
+                    throw new ArgumentException("Invalid key: " + s);*/
         }
     }
 
@@ -2297,6 +2520,24 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
             K_DamageReductionFactor => DamageReductionFactor,
             K_DeadShellChance => DeadShellChance,
             K_GrabbedShockChargeReduction => GrabbedShockChargeReduction,
+            K_WaterPathingResistance => WaterPathingResistance,
+            K_BluntDamageResistance => BluntDamageResistance,
+            K_BluntStunResistance => BluntStunResistance,
+            K_WaterDamageResistance => WaterDamageResistance,
+            K_WaterStunResistance => WaterStunResistance,
+            K_StabDamageResistance => StabDamageResistance,
+            K_StabStunResistance => StabStunResistance,
+            K_BiteDamageResistance => BiteDamageResistance,
+            K_BiteStunResistance => BiteStunResistance,
+            K_ElectricDamageResistance => ElectricDamageResistance,
+            K_ElectricStunResistance => ElectricStunResistance,
+            K_OffScreenSpeed => OffScreenSpeed,
+            K_SurfaceFriction => SurfaceFriction,
+            K_Bounce => Bounce,
+            K_WaterRetardationImmunity => WaterRetardationImmunity,
+            K_WaterFriction => WaterFriction,
+            K_AirFriction => AirFriction,
+            K_ImpactThreshold => ImpactThreshold,
             _ => 0f//throw new ArgumentException("Invalid key: " + s),
         };
     }
@@ -2397,6 +2638,12 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
         .Feed($"{nameof(Flying)}", Flags.Get(Flying))
         .Feed($"{nameof(DetectsAnnoyingCollisions)}", Flags.Get(DetectsAnnoyingCollisions))
         .Feed($"{nameof(WeakToStun)}", Flags.Get(WeakToStun))
+        .Feed($"{nameof(DaddyCorruptionImmune)}", Flags2.Get(DaddyCorruptionImmune))
+        .Feed($"{nameof(DoesNotUseDens)}", Flags2.Get(DoesNotUseDens))
+        .Feed($"{nameof(CannotBeHitByWeapons)}", Flags2.Get(CannotBeHitByWeapons))
+        .Feed($"{nameof(SandstormImmune)}", Flags2.Get(SandstormImmune))
+        .Feed($"{nameof(CannotBeBlinded)}", Flags2.Get(CannotBeBlinded))
+        .Feed($"{nameof(CannotBeDeafened)}", Flags2.Get(CannotBeDeafened))
         .Feed($"{nameof(GlowingHead)}", Flags.Get(GlowingHead))
         .Feed($"{nameof(ShocksWhenGrabbed)}", Flags.Get(ShocksWhenGrabbed))
         .Feed($"{nameof(Shields)}", Flags.Get(Shields))
@@ -2492,6 +2739,24 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
         .Feed($"{nameof(DamageReductionFactor)}", DamageReductionFactor)
         .Feed($"{nameof(DeadShellChance)}", DeadShellChance)
         .Feed($"{nameof(GrabbedShockChargeReduction)}", GrabbedShockChargeReduction)
+        .Feed($"{nameof(WaterPathingResistance)}", WaterPathingResistance)
+        .Feed($"{nameof(BluntDamageResistance)}", BluntDamageResistance)
+        .Feed($"{nameof(BluntStunResistance)}", BluntStunResistance)
+        .Feed($"{nameof(WaterDamageResistance)}", WaterDamageResistance)
+        .Feed($"{nameof(WaterStunResistance)}", WaterStunResistance)
+        .Feed($"{nameof(StabDamageResistance)}", StabDamageResistance)
+        .Feed($"{nameof(StabStunResistance)}", StabStunResistance)
+        .Feed($"{nameof(BiteDamageResistance)}", BiteDamageResistance)
+        .Feed($"{nameof(BiteStunResistance)}", BiteStunResistance)
+        .Feed($"{nameof(ElectricDamageResistance)}", ElectricDamageResistance)
+        .Feed($"{nameof(ElectricStunResistance)}", ElectricStunResistance)
+        .Feed($"{nameof(OffScreenSpeed)}", OffScreenSpeed)
+        .Feed($"{nameof(SurfaceFriction)}", SurfaceFriction)
+        .Feed($"{nameof(Bounce)}", Bounce)
+        .Feed($"{nameof(WaterRetardationImmunity)}", WaterRetardationImmunity)
+        .Feed($"{nameof(WaterFriction)}", WaterFriction)
+        .Feed($"{nameof(AirFriction)}", AirFriction)
+        .Feed($"{nameof(ImpactThreshold)}", ImpactThreshold)
         .Feed($"{nameof(BodyChunkRadType)}", BodyChunkRadType)
         .Feed($"{nameof(HeadVelocityType)}", HeadVelocityType)
         .Feed($"{nameof(BodySizeGenerationType)}", BodySizeGenerationType)
@@ -2547,10 +2812,10 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
     {
         string flagS = "~Y (Yes) / N (No); N (No) by default",
             flagNS = "~Y (Yes) / N (No); nothing by default",
-            intS = "~Integer > 0; 0 by default",
-            int1S = "~Integer > 1; 1 by default",
-            int2S = "~Integer > 2; 2 by default",
-            floatS = "~Decimal > 0; 0 by default",
+            intS = "~Integer >= 0; 0 by default",
+            int1S = "~Integer >= 1; 1 by default",
+            int2S = "~Integer >= 2; 2 by default",
+            floatS = "~Decimal >= 0; 0 by default",
             floatHS = "~Decimal (+ or -); 0 by default",
             paletteS = "~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE",
             paletteNS = "~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); nothing by default; IGNORES CASE",
@@ -2569,6 +2834,12 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
         .Tell($"{nameof(Flying)}", flagS)
         .Tell($"{nameof(DetectsAnnoyingCollisions)}", flagS)
         .Tell($"{nameof(WeakToStun)}", flagS)
+        .Tell($"{nameof(DaddyCorruptionImmune)}", flagS)
+        .Tell($"{nameof(DoesNotUseDens)}", flagS)
+        .Tell($"{nameof(CannotBeHitByWeapons)}", flagS)
+        .Tell($"{nameof(SandstormImmune)}", flagS)
+        .Tell($"{nameof(CannotBeBlinded)}", flagS)
+        .Tell($"{nameof(CannotBeDeafened)}", flagS)
         .Tell($"{nameof(GlowingHead)}", flagS)
         .Tell($"{nameof(ShocksWhenGrabbed)}", flagS)
         .Tell($"{nameof(Shields)}", flagS)
@@ -2664,6 +2935,24 @@ public class CustomCentiBreedParams(CreatureTemplate.Type type, CreatureTemplate
         .Tell($"{nameof(DamageReductionFactor)}", floatS)
         .Tell($"{nameof(DeadShellChance)}", floatS)
         .Tell($"{nameof(GrabbedShockChargeReduction)}", floatHS)
+        .Tell($"{nameof(WaterPathingResistance)}", floatS)
+        .Tell($"{nameof(BluntDamageResistance)}", floatS)
+        .Tell($"{nameof(BluntStunResistance)}", floatS)
+        .Tell($"{nameof(WaterDamageResistance)}", floatS)
+        .Tell($"{nameof(WaterStunResistance)}", floatS)
+        .Tell($"{nameof(StabDamageResistance)}", floatS)
+        .Tell($"{nameof(StabStunResistance)}", floatS)
+        .Tell($"{nameof(BiteDamageResistance)}", floatS)
+        .Tell($"{nameof(BiteStunResistance)}", floatS)
+        .Tell($"{nameof(ElectricDamageResistance)}", floatS)
+        .Tell($"{nameof(ElectricStunResistance)}", floatS)
+        .Tell($"{nameof(OffScreenSpeed)}", floatS)
+        .Tell($"{nameof(SurfaceFriction)}", floatS)
+        .Tell($"{nameof(Bounce)}", floatS)
+        .Tell($"{nameof(WaterRetardationImmunity)}", floatS)
+        .Tell($"{nameof(WaterFriction)}", floatS)
+        .Tell($"{nameof(AirFriction)}", floatS)
+        .Tell($"{nameof(ImpactThreshold)}", floatS)
         .Tell($"{nameof(BodyChunkRadType)}", "~NORMAL / SMALL / CENTIWING; NORMAL by default; IGNORES CASE")
         .Tell($"{nameof(HeadVelocityType)}", "~NORMAL / SMALL; NORMAL by default; IGNORES CASE")
         .Tell($"{nameof(BodySizeGenerationType)}", "~RANDOMRANGEPOW / RANDOMRANGE / STATICMIN / STATICMAX / FROMWORLDSTRING; RANDOMRANGEPOW by default; IGNORES CASE")

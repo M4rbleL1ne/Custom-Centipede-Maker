@@ -185,13 +185,12 @@ public class CustomCentiCritob : Critob, ISandboxHandler
                 CeilingSlope = new() { resistance = 2f, legality = Allowed }
             },
             DefaultRelationship = new() { type = CreatureTemplate.Relationship.Type.Eats, intensity = 1f },
-            DamageResistances = new() { Base = Above0(props.BaseDamageResistance), Explosion = Above0(props.ExplosionResistance), Electric = 102f, Water = props.Flags.Get(Swimming) ? 102f : 0f },
-            StunResistances = new() { Base = Above0(props.BaseStunResistance), Explosion = Above0(props.ExplosionStunResistance), Electric = 102f, Water = props.Flags.Get(Swimming) ? 102f : 0f },
+            DamageResistances = new() { Base = Above0(props.BaseDamageResistance), Explosion = Above0(props.ExplosionResistance), Electric = Above0(props.ElectricDamageResistance), Water = Above0(props.WaterDamageResistance), Blunt = Above0(props.BluntDamageResistance), Bite = Above0(props.BiteDamageResistance), Stab = Above0(props.StabDamageResistance) },
+            StunResistances = new() { Base = Above0(props.BaseStunResistance), Explosion = Above0(props.ExplosionStunResistance), Electric = Above0(props.ElectricStunResistance), Water = Above0(props.WaterStunResistance), Blunt = Above0(props.BluntStunResistance), Bite = Above0(props.BiteStunResistance), Stab = Above0(props.StabStunResistance) },
             HasAI = true,
             Pathing = PreBakedPathing.Ancestral(props.Flags.Get(Flying) ? (props.Flags.Get(Swimming) ? CreatureTemplate.Type.BigEel : CreatureTemplate.Type.Fly) : (props.Flags.Get(Swimming) ? CreatureTemplate.Type.Leech : CreatureTemplate.Type.BlueLizard))
         }.IntoTemplate();
         t.quickDeath = false;
-        t.offScreenSpeed = .3f;
         t.grasps = 2;
         t.abstractedLaziness = Above0(props.AbstractedLaziness);
         t.bodySize = Above0(props.BodySizeEstimate);
@@ -225,9 +224,13 @@ public class CustomCentiCritob : Critob, ISandboxHandler
         t.wormGrassImmune = props.Flags.Get(WormGrassImmune);
         t.forbidStandardShortcutEntry = props.Flags.Get(ForbidStandardShortcutEntry);
         t.scaryness = props.Scaryness;
-        t.meatPoints = props.Flags.Get(SmallFood) ? 0 : 1; // just to be able to eat custom centi corpses (if not small food), the amount of meat points here is overriden by Centipede.ctor
+        t.meatPoints = props.Flags.Get(SmallFood) ? 0 : 1; // just to be able to eat custom centi corpses (if not small food), the amount of meat points here is overriden by Centipede.ctor    
+        t.waterPathingResistance = Above0(props.WaterDamageResistance);
+        t.offScreenSpeed = Above0(props.OffScreenSpeed);
+        t.daddyCorruptionImmune = props.Flags2.Get(DaddyCorruptionImmune);
+        t.doesNotUseDens = props.Flags2.Get(DoesNotUseDens);
         props._template = t;
-        return t;
+        return t;//change default before set for backwards compat + impl interface
     }
 
     public void ResetRelationships(CreatureTemplate? ancestor)

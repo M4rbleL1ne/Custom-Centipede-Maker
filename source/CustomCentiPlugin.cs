@@ -24,7 +24,7 @@ namespace CustomCentisMod;
 public sealed class CustomCentiPlugin : BaseUnityPlugin
 {
     internal const BindingFlags K_ALL_FLAGS = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
-    internal const string K_ID = "lb-fgf-m4r-ik.custom-centis", K_VERSION = "10.0.0";
+    internal const string K_ID = "lb-fgf-m4r-ik.custom-centis", K_VERSION = "10.0.1";
     [AllowNull] internal static Dictionary<string, CustomCentiCritob> s_dict;
     internal static HashSet<CreatureTemplate.Type>? s_majorCreatures = [];
 
@@ -138,9 +138,13 @@ public sealed class CustomCentiPlugin : BaseUnityPlugin
         On.MultiplayerUnlocks.ctor += s_On_MultiplayerUnlocks_ctor;
         IL.AbstractCreature.setCustomFlags += s_IL_AbstractCreature_setCustomFlags;
         On.ModManager.ModFolderHasDLLContent += s_On_ModManager_ModFolderHasDLLContent;
+        On.Creature.Blind += s_On_Creature_Blind;
+        On.Creature.Deafen += s_On_Creature_Deafen;
+        // it's virtual, it won't be inlined
+        new Hook(typeof(PhysicalObject).GetMethod("get_SandstormImmune", K_ALL_FLAGS), s_On_PhysicalObject_get_SandstormImmune);
     }
 
-    internal static bool On_ModManager_ModFolderHasDLLContent(On.ModManager.orig_ModFolderHasDLLContent orig, string folder) => orig(folder) || Directory.Exists(Path.Combine(folder, "CustomCentis"));
+    public static bool On_ModManager_ModFolderHasDLLContent(On.ModManager.orig_ModFolderHasDLLContent orig, string folder) => orig(folder) || Directory.Exists(Path.Combine(folder, "CustomCentis"));
 
     internal static void IL_AbstractCreature_setCustomFlags(ILContext il)
     {
@@ -203,7 +207,7 @@ public sealed class CustomCentiPlugin : BaseUnityPlugin
         orig(self, manager, showRegionSpecificBkg);
     }*/
 
-    public static void IL_ButtonManager_Update(ILContext il)
+    internal static void IL_ButtonManager_Update(ILContext il)
     {
         var c = new ILCursor(il);
         if (c.TryGotoNext(
