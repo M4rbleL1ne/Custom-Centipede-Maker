@@ -38,8 +38,7 @@ static class InternalEnable
         s_IL_ScavengerAI_IUseARelationshipTracker_UpdateDynamicRelationship = IL_ScavengerAI_IUseARelationshipTracker_UpdateDynamicRelationship,
         s_IL_BigSpiderAI_IUseARelationshipTracker_UpdateDynamicRelationship = IL_BigSpiderAI_IUseARelationshipTracker_UpdateDynamicRelationship,
         s_IL_SporeCloud_Update = IL_SporeCloud_Update,
-        s_IL_ButtonManager_Update = IL_ButtonManager_Update,
-        s_IL_AbstractCreature_setCustomFlags = IL_AbstractCreature_setCustomFlags;
+        s_IL_ButtonManager_Update = IL_ButtonManager_Update;
     internal static On.Player.hook_IsCreatureLegalToHoldWithoutStun s_On_Player_IsCreatureLegalToHoldWithoutStun = On_Player_IsCreatureLegalToHoldWithoutStun;
     internal static On.MoreSlugcats.SlugNPCAI.hook_GetFoodType s_On_SlugNPCAI_GetFoodType = On_SlugNPCAI_GetFoodType;
     internal static Func<Func<Centipede, bool>, Centipede, bool>
@@ -142,7 +141,6 @@ static class InternalEnable
         s_IL_SporeCloud_Update = null!;
         s_IL_ButtonManager_Update = null!;
         s_On_MultiplayerUnlocks_ctor = null!;
-        s_IL_AbstractCreature_setCustomFlags = null!;
         s_On_ModManager_ModFolderHasDLLContent = null!;
         s_On_Creature_Blind = null!;
         s_On_Creature_Deafen = null!;

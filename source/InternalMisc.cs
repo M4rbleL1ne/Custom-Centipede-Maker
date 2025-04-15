@@ -18,7 +18,6 @@ static class InternalMisc
     //s_KillScore = typeof(SandboxUnlock).GetField(nameof(SandboxUnlock.KillScore), K_ALL_FLAGS),
     //s_KillScoreValue = typeof(KillScore).GetField(nameof(KillScore.Value), K_ALL_FLAGS),
     //s_KillScoreIsConfigurable = typeof(KillScore).GetField(nameof(KillScore.IsConfigurable), K_ALL_FLAGS);
-    internal static Region s_nullCheckRegion;
     internal static Regex s_addSpaces = new("([a-z])([A-Z])"), s_A = new("^[ -~/s]+$");
     internal static FTextParams s_defTParams = new();
     internal static char[] s_sep = [Separator], s_arSep = [ArraySeparator], s_def = [Definition], s_meth = [Method];
@@ -42,14 +41,6 @@ static class InternalMisc
         s_No_changes_detected = "No changes detected.",
         s_Changes_detected = "Changes detected! Restart your game for them to apply properly!",
         s_Apply_Parent = "Apply Parent";
-
-    static InternalMisc()
-    {
-        s_nullCheckRegion = (Region)FormatterServices.GetUninitializedObject(typeof(Region));
-        var prms = s_nullCheckRegion.regionParams = (Region.RegionParams)FormatterServices.GetUninitializedObject(typeof(Region.RegionParams));
-        prms.globalCreatureFlags_All = [];
-        prms.globalCreatureFlags_Specific = [];
-    }
 
     internal static void Dispose()
     {
@@ -83,7 +74,6 @@ static class InternalMisc
         s_Changes_detected = null!;
         s_Apply_Parent = null!;
         s_fieldHashDict = null!;
-        s_nullCheckRegion = null!;
         CustomCentiTemplates.s_templateHash = null!;
         /*s_KillScore = null!;
         s_KillScoreValue = null!;

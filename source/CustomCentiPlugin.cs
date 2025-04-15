@@ -136,7 +136,6 @@ public sealed class CustomCentiPlugin : BaseUnityPlugin
         On.CreatureTemplate.CreatureRelationship_CreatureTemplate += s_On_CreatureTemplate_CreatureRelationship_CreatureTemplate;
         IL.Menu.Remix.ConfigMenuTab.ButtonManager.Update += s_IL_ButtonManager_Update;
         On.MultiplayerUnlocks.ctor += s_On_MultiplayerUnlocks_ctor;
-        IL.AbstractCreature.setCustomFlags += s_IL_AbstractCreature_setCustomFlags;
         On.ModManager.ModFolderHasDLLContent += s_On_ModManager_ModFolderHasDLLContent;
         On.Creature.Blind += s_On_Creature_Blind;
         On.Creature.Deafen += s_On_Creature_Deafen;
@@ -145,19 +144,6 @@ public sealed class CustomCentiPlugin : BaseUnityPlugin
     }
 
     public static bool On_ModManager_ModFolderHasDLLContent(On.ModManager.orig_ModFolderHasDLLContent orig, string folder) => orig(folder) || Directory.Exists(Path.Combine(folder, "CustomCentis"));
-
-    internal static void IL_AbstractCreature_setCustomFlags(ILContext il)
-    {
-        var c = new ILCursor(il);
-        for (var i = 1; i <= 2; i++)
-        {
-            if (c.TryGotoNext(MoveType.After,
-                s_MatchLdfld_World_region))
-                c.EmitCentiCall(nameof(CustomCentiCalls.SetCustomFlagsRegionNullCheck));
-            else
-                s_logger.LogError($"Couldn't ILHook AbstractCreature.setCustomFlags (part {i})!");
-        }
-    }
 
     public static void On_MultiplayerUnlocks_ctor(On.MultiplayerUnlocks.orig_ctor orig, MultiplayerUnlocks self, PlayerProgression progression, List<string> allLevels)
     {

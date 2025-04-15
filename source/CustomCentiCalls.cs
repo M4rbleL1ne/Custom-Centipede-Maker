@@ -24,8 +24,6 @@ public static class CustomCentiCalls
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ILCursor EmitCentiCall(this ILCursor c, string customCentiMethodName) => c.Emit(OpCodes.Call, s_callsType.GetMethod(customCentiMethodName));
 
-    public static Region SetCustomFlagsRegionNullCheck(Region region) => region is not null ? region : s_nullCheckRegion;
-
     public static void MakeSaveButtonGrey(Menu.Remix.ConfigMenuTab.ButtonManager self)
     {
         if (Menu.Remix.ConfigContainer.ActiveInterface is CustomCentiInterface)
