@@ -1,7 +1,7 @@
 ﻿{
   "id": "lb-fgf-m4r-ik.custom-centis",
   "name": "Custom Centipede Maker",
-  "version": "10.0.1",
+  "version": "10.0.2",
   "authors": "M4rbleL1ne",
   "description": "A tool that lets you make your own centipede variants without code.",
   "requirements": [ "fisobs" ],

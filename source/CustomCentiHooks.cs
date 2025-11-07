@@ -461,8 +461,15 @@ public static class CustomCentiHooks
                 case SizeGenerationType.FromWorldString:
                     if (abstrCrit.spawnData is string st && st.Length > 2)
                     {
-                        if (!float.TryParse(st.Substring(1, st.Length - 2), NumberStyles.Any, CultureInfo.InvariantCulture, out res))
-                            goto default;
+                        var flags = abstrCrit.unrecognizedFlags;
+                        for (var i = 0; i < flags.Count; i++)
+                        {
+                            if (float.TryParse(flags[i], NumberStyles.Any, CultureInfo.InvariantCulture, out var res2))
+                            {
+                                res = res2;
+                                break;
+                            }
+                        }
                         res = Lerp(min, max, res);
                     }
                     break;
@@ -1031,6 +1038,16 @@ public static class CustomCentiHooks
         }
         else
             s_logger.LogError("Couldn't ILHook CentipedeGraphics.ApplyPalette (part 3)!");
+        if (c.TryGotoNext(
+            s_MatchRet))
+        {
+            c.Emit(OpCodes.Ldarg_0)
+             .Emit(OpCodes.Ldarg_1)
+             .Emit(OpCodes.Ldarg_2)
+             .EmitCentiCall(nameof(CustomCentiCalls.FixPauseColor));
+        }
+        else
+            s_logger.LogError("Couldn't ILHook CentipedeGraphics.ApplyPalette (part 4)!");
     }
 
     internal static void IL_CentipedeGraphics_Update(ILContext il)
@@ -1130,7 +1147,6 @@ public static class CustomCentiHooks
         {
             c.Emit(OpCodes.Ldarg_0)
              .Emit(OpCodes.Ldarg_1)
-             .Emit(OpCodes.Ldarg_2)
              .EmitCentiCall(nameof(CustomCentiCalls.InitiateGraphics));
         }
         else

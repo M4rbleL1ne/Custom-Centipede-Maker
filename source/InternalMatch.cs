@@ -49,7 +49,8 @@ static class InternalMatch
         s_MatchCallOrCallvirt_Array_GetLength = MatchCallOrCallvirt_Array_GetLength,
         s_MatchLdfld_ButtonManager_saveButton = MatchLdfld_ButtonManager_saveButton,
         s_MatchLdfld_UIfocusable_greyedOut = MatchLdfld_UIfocusable_greyedOut,
-        s_MatchLdfld_World_region = MatchLdfld_World_region;
+        s_MatchLdfld_World_region = MatchLdfld_World_region,
+        s_MatchRet = MatchRet;
 
     internal static void Dispose()
     {
@@ -94,6 +95,7 @@ static class InternalMatch
         s_MatchLdfld_ButtonManager_saveButton = null!;
         s_MatchLdfld_UIfocusable_greyedOut = null!;
         s_MatchLdfld_World_region = null!;
+        s_MatchRet = null!;
     }
 
     internal static bool MatchLdarg_0(Instruction x) => x.MatchLdarg(0);
@@ -177,4 +179,6 @@ static class InternalMatch
     internal static bool MatchLdfld_UIfocusable_greyedOut(Instruction x) => x.MatchLdfld<Menu.Remix.MixedUI.UIfocusable>("greyedOut");
 
     internal static bool MatchLdfld_World_region(Instruction x) => x.MatchLdfld<World>("region");
+
+    internal static bool MatchRet(Instruction x) => x.MatchRet();
 }

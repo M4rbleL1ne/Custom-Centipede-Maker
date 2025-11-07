@@ -456,7 +456,7 @@ public static class CustomCentiCalls
         }
     }
 
-    public static void InitiateGraphics(CentipedeGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    public static void InitiateGraphics(CentipedeGraphics self, RoomCamera.SpriteLeaser sLeaser)
     {
         if (self.centipede.Template.breedParameters is CustomCentiBreedParams props)
         {
@@ -616,7 +616,7 @@ public static class CustomCentiCalls
                 {
                     for (j = 0; j < (spikes ? (pairs / 2) : pairs); j++)
                     {
-                        var vector15 = (j != 0) ? DirVec(self.ChunkDrawPos(j - 1, timeStacker), self.ChunkDrawPos(j, timeStacker)) : DirVec(self.ChunkDrawPos(0, timeStacker), self.ChunkDrawPos(1, timeStacker));
+                        var vector15 = j != 0 ? DirVec(self.ChunkDrawPos(j - 1, timeStacker), self.ChunkDrawPos(j, timeStacker)) : DirVec(self.ChunkDrawPos(0, timeStacker), self.ChunkDrawPos(1, timeStacker));
                         var vector16 = PerpendicularVector(vector15);
                         var vector17 = self.RotatAtChunk(j, timeStacker);
                         var vector18 = self.WingPos(i, j, vector15, vector16, vector17, timeStacker);
@@ -634,6 +634,104 @@ public static class CustomCentiCalls
                         sprc.MoveVertice(0, vector18 - vector15 * num17 - camPos);
                         sprc.MoveVertice(2, vector19 + vector15 * num17 - camPos);
                         sprc.MoveVertice(3, vector19 - vector15 * num17 - camPos);
+                        sprc.verticeColors[0] = HSL2RGB(hslc.x - .4f * a * a, hslc.y, hslc.z + .5f * a, col.a + .5f * a);
+                        sprc.verticeColors[1] = sprc.verticeColors[0];
+                        sprc.verticeColors[2] = Lerp(self.blackColor, s_white, .5f * a);
+                        sprc.verticeColors[3] = sprc.verticeColors[2];
+                    }
+                }
+            }
+        }
+    }
+
+    public static void FixPauseColor(CentipedeGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
+    {
+        if (self.centipede.Template.breedParameters is CustomCentiBreedParams props)
+        {
+            bool spikes = props.Flags.Get(ShellSpikes), wings = props.Flags.Get(Wings);
+            var sprites = sLeaser.sprites;
+            FSprite spr;
+            int twoOrOne = (!props.Flags.Get(AdditionalShellTexture)) ? 1 : 2, pairs = self.wingPairs, i, j;
+            var chunks = self.centipede.bodyChunks;
+            for (i = 0; i < chunks.Length; i++)
+            {
+                var ch = chunks[i];
+                var fVis = !props.Flags.Get(SmallFood) || self.centipede.BitesLeft > i;
+                var flagS = fVis && (!props.Flags.Get(ShellParticles) || self.centipede.CentiState.shells[i]);
+                var vector2 = chunks[0].pos;
+                vector2 += DirVec(chunks[1].pos, vector2) * 10f;
+                var vector3 = ch.pos;
+                var vector4 = (i < chunks.Length - 1) ? chunks[i + 1].pos : (vector3 + DirVec(vector2, vector3) * 10f);
+                Vector2 normalized = self.RotatAtChunk(i, 1f).normalized, normalized2 = (vector2 - vector4).normalized;
+                var shellHasVal = props.Flags2.Get(ShellColorType_HasValue);
+                for (j = 0; j < twoOrOne; j++)
+                {
+                    spr = sprites[self.ShellSprite(i, j)];
+                    if (normalized.y > 0f)
+                    {
+                        if (shellHasVal)
+                            spr.color = self.ShellColor;
+                        else
+                        {
+                            var num7 = Mathf.InverseLerp(-.5f, .5f, Vector3.Dot(normalized2, Custom.DegToVec(30f) * normalized.x));
+                            num7 *= Mathf.Max(Mathf.InverseLerp(.3f, .05f, Math.Abs(-.5f - normalized.x)), Mathf.InverseLerp(.3f, .05f, Math.Abs(.5f - normalized.x)));
+                            num7 *= Mathf.Pow(1f - self.darkness, 2f);
+                            if (j == 0)
+                                spr.color = Color.Lerp(Custom.HSL2RGB(self.hue, self.saturation, .5f + .25f * num7), self.blackColor, self.darkness);
+                            else
+                                spr.color = Color.Lerp(Color.Lerp(Custom.HSL2RGB(self.hue, self.saturation, .5f + .25f * num7), self.blackColor, .5f), new(.4392157f, .07450981f, 0f), .25f);
+                        }
+                    }
+                    else
+                    {
+                        if (j == 0)
+                            spr.color = self.SecondaryShellColor;
+                        else
+                            spr.color = self.blackColor;
+                    }
+                }
+                if (spikes)
+                {
+                    var bonus = wings ? (pairs / 2) : 0;
+                    var vector6 = DegToVec(VecToDeg(normalized) + ((normalized.x > 0f) ? (-90f) : 90f));
+                    spr = sprites[self.WingSprite(1, i)];
+                    if (vector6.y > 0f && flagS)
+                    {
+                        var num8 = InverseLerp(-.5f, .5f, Vector2.Dot(normalized2, DegToVec(30f) * vector6.x));
+                        num8 *= Math.Max(InverseLerp(.3f, .05f, Math.Abs(-.5f - vector6.x)), InverseLerp(.3f, .05f, Math.Abs(.5f - vector6.x)));
+                        num8 *= (1f - self.darkness) * (1f - self.darkness);
+                        spr.color = shellHasVal ? self.ShellColor : Lerp(Custom.HSL2RGB(self.hue, self.saturation, .5f + .25f * num8), self.blackColor, .3f + .7f * self.darkness * (1f - num8));
+                    }
+                    spr = sprites[self.WingSprite(0, i + bonus)];
+                    if (flagS)
+                    {
+                        var num10 = InverseLerp(-.5f, .5f, Vector2.Dot(normalized2, DegToVec(30f) * normalized.x));
+                        num10 *= Math.Max(InverseLerp(.3f, .05f, Math.Abs(-.5f - normalized.x)), InverseLerp(.3f, .05f, Math.Abs(.5f - normalized.x)));
+                        num10 *= (float)Math.Pow(1f - self.darkness, 2d);
+                        spr.color = shellHasVal ? self.ShellColor : Lerp(Custom.HSL2RGB(self.hue, self.saturation, .5f + .25f * num10), self.blackColor, self.darkness);
+                    }
+                }
+            }
+            if (wings)
+            {
+                var col = GetColorFromType(props.WingColorType, rCam.currentPalette, props.WingColor);
+                var hslc = Custom.RGB2HSL(col);
+                var bonus = spikes ? (pairs / 2) : 0;
+                for (i = 0; i < 2; i++)
+                {
+                    for (j = 0; j < (spikes ? (pairs / 2) : pairs); j++)
+                    {
+                        var vector15 = j != 0 ? DirVec(self.ChunkDrawPos(j - 1, 1f), self.ChunkDrawPos(j, 1f)) : DirVec(self.ChunkDrawPos(0, 1f), self.ChunkDrawPos(1, 1f));
+                        var vector16 = PerpendicularVector(vector15);
+                        var vector17 = self.RotatAtChunk(j, 1f);
+                        var vector18 = self.WingPos(i, j, vector15, vector16, vector17, 1f);
+                        var vector19 = self.ChunkDrawPos(j, 1f) + chunks[j].rad * (i == 0 ? -1f : 1f) * vector16 * vector17.y;
+                        var lhs = DegToVec(AimFromOneVectorToAnother(vector18, vector19) + VecToDeg(vector17));
+                        var a = InverseLerp(.85f, 1f, Vector2.Dot(lhs, DegToVec(45f))) * Math.Abs(Vector2.Dot(DegToVec(45f + VecToDeg(vector17)), vector15));
+                        var lhs2 = DegToVec(AimFromOneVectorToAnother(vector19, vector18) + VecToDeg(vector17));
+                        var b = InverseLerp(.85f, 1f, Vector2.Dot(lhs2, DegToVec(45f))) * Math.Abs(Vector2.Dot(DegToVec(45f + VecToDeg(vector17)), -vector15));
+                        a = (float)Math.Pow(Math.Max(a, b), .5d);
+                        var sprc = (sprites[self.WingSprite(i, i == 0 ? j : (j + bonus))] as CustomFSprite)!;
                         sprc.verticeColors[0] = HSL2RGB(hslc.x - .4f * a * a, hslc.y, hslc.z + .5f * a, col.a + .5f * a);
                         sprc.verticeColors[1] = sprc.verticeColors[0];
                         sprc.verticeColors[2] = Lerp(self.blackColor, s_white, .5f * a);

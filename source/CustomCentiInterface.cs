@@ -562,7 +562,7 @@ public sealed class CustomCentiInterface : OptionInterface
         MakeFloatBoxes(interUI, tab, ["Whisker Length Factor", "Small Whisker Length", "Big Whisker Length", "Whisker Shape Factor"], 300f, 30f, ["The length of the two pairs of whiskers.", "The length of the small pair of whiskers.", "The length of the big pair of whiskers.", "How thick a whisker is."]);
 
         tab = tabs[K_Arena];
-        MakeTitle(tab, "Arena");
+        MakeTitle(tab, UnlockErrorMode ? "Arena : Error while creating unlocks!" : "Arena");
         MakeCheckBoxes(interUI, tab, ["Kill Score Hidden", "Counts As A Kill"], 0f, 0f, ["Whether or not the centipede kill score should be hidden and non-configurable or not. Requires \"Unlock ID\" not to be empty.", "Whether or not the player should get a score reward after killing the centipede."]);
         MakeIntBoxes(interUI, tab, ["Standard Kill Score", "Big Kill Score", "Small Kill Score", "Expedition Score"], mins, maxs, 0f, 60f, ["The kill score for the medium-sized centipede.", "The kill score for the large centipede. Requires \"Body Size Generation Type\" not to be set to \"StaticMin\" nor \"StaticMax\".", "The kill score for the small centipede. Requires \"Body Size Generation Type\" not to be set to \"StaticMin\" nor \"StaticMax\".", "The centipede expedition kill score, not size-dependent."]);
         MakeCheckBox(interUI, tab, "Major Creature", 0f, 180f, "Whether or not the centipede should be recognized as a large creature by arena mode.");

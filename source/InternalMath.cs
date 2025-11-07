@@ -105,7 +105,7 @@ static class InternalMath
     internal static Vector2 DirVec(Vector2 p1, Vector2 p2)
     {
         if (p1 == p2)
-            return Vector2.one;
+            return Vector2.up;
         p1.x = p2.x - p1.x;
         p1.y = p2.y - p1.y;
         p1.Normalize();

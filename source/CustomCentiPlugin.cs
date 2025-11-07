@@ -24,9 +24,10 @@ namespace CustomCentisMod;
 public sealed class CustomCentiPlugin : BaseUnityPlugin
 {
     internal const BindingFlags K_ALL_FLAGS = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
-    internal const string K_ID = "lb-fgf-m4r-ik.custom-centis", K_VERSION = "10.0.1";
+    internal const string K_ID = "lb-fgf-m4r-ik.custom-centis", K_VERSION = "10.0.2";
     [AllowNull] internal static Dictionary<string, CustomCentiCritob> s_dict;
     internal static HashSet<CreatureTemplate.Type>? s_majorCreatures = [];
+    public static bool UnlockErrorMode;
 
     CustomCentiPlugin() { }
 
@@ -150,11 +151,13 @@ public sealed class CustomCentiPlugin : BaseUnityPlugin
         try
         {
             orig(self, progression, allLevels);
+            UnlockErrorMode = false;
         }
         catch (Exception ex)
         {
             s_logger.LogError("Error while creating multiplayer unlocks! If it's an IndexOutOfRangeException, it's likely that an unlock wasn't properly registered! It is recommended to restart the game to fix any missing unlocks.");
             s_logger.LogError(ex);
+            UnlockErrorMode = true;
         }
     }
 

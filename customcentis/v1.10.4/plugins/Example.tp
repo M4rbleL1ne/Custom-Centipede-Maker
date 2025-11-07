@@ -1,0 +1,177 @@
+#The name of this file is the name of your creature. Multiple TP files can exist in the CustomCentis folder. PNG files in the CustomCentis folder will be automatically loaded (atlas text is optional). Remove / Add # to uncomment / comment. Spaces and empty lines are ignored. Decimal numbers use dots as points. Any invalid entry will be ignored. Define at most one field per line. Field names are CASE SENSITIVE.
+#Inherit=~SmallCentipede / Centipede / Centiwing / RedCentipede / AquaCenti; nothing by default; CASE SENSITIVE; If the Inherit field is present, it should always be the first line of the file.
+#Swimming=~Y (Yes) / N (No); N (No) by default
+#AutomaticPickUp=~Y (Yes) / N (No); N (No) by default
+#SmallFood=~Y (Yes) / N (No); N (No) by default
+#ShellParticles=~Y (Yes) / N (No); N (No) by default
+#Flying=~Y (Yes) / N (No); N (No) by default
+#DetectsAnnoyingCollisions=~Y (Yes) / N (No); N (No) by default
+#WeakToStun=~Y (Yes) / N (No); N (No) by default
+#DaddyCorruptionImmune=~Y (Yes) / N (No); N (No) by default
+#DoesNotUseDens=~Y (Yes) / N (No); N (No) by default
+#CannotBeHitByWeapons=~Y (Yes) / N (No); N (No) by default
+#SandstormImmune=~Y (Yes) / N (No); N (No) by default
+#CannotBeBlinded=~Y (Yes) / N (No); N (No) by default
+#CannotBeDeafened=~Y (Yes) / N (No); N (No) by default
+#GlowingHead=~Y (Yes) / N (No); N (No) by default
+#ShocksWhenGrabbed=~Y (Yes) / N (No); N (No) by default
+#Shields=~Y (Yes) / N (No); N (No) by default
+#NoiseTracker=~Y (Yes) / N (No); N (No) by default
+#AdditionalShellTexture=~Y (Yes) / N (No); N (No) by default
+#Wings=~Y (Yes) / N (No); N (No) by default
+#ShellSpikes=~Y (Yes) / N (No); N (No) by default
+#BodySizeDependantWhisker=~Y (Yes) / N (No); N (No) by default
+#SmallTube=~Y (Yes) / N (No); N (No) by default
+#SlowLegs=~Y (Yes) / N (No); N (No) by default
+#KillScoreHidden=~Y (Yes) / N (No); N (No) by default
+#CountsAsAKill=~Y (Yes) / N (No); N (No) by default
+#WaterOnly=~Y (Yes) / N (No); N (No) by default
+#IgnoresCommunity=~Y (Yes) / N (No); N (No) by default
+#TriesToStayInRoom=~Y (Yes) / N (No); N (No) by default
+#EasyKill=~Y (Yes) / N (No); N (No) by default
+#UsesUnlockData=~Y (Yes) / N (No); N (No) by default
+#EdibleByOmnivores=~Y (Yes) / N (No); N (No) by default
+#WormGrassImmune=~Y (Yes) / N (No); N (No) by default
+#ForbidStandardShortcutEntry=~Y (Yes) / N (No); N (No) by default
+#BlizzardWanderer=~Y (Yes) / N (No); N (No) by default
+#MajorCreature=~Y (Yes) / N (No); N (No) by default
+#NoViolenceStun=~Y (Yes) / N (No); N (No) by default
+#TooBigForShelter=~Y (Yes) / N (No); N (No) by default
+#WantsToShock=~Y (Yes) / N (No); N (No) by default
+#SporeCloudImmune=~Y (Yes) / N (No); N (No) by default
+#Throwable=~Y (Yes) / N (No); nothing by default
+#NightOnly=~Y (Yes) / N (No); nothing by default
+#IgnoresCycle=~Y (Yes) / N (No); nothing by default
+#PreCycle=~Y (Yes) / N (No); nothing by default
+#LavaImmune=~Y (Yes) / N (No); nothing by default
+#TentacleImmune=~Y (Yes) / N (No); nothing by default
+#HypothermiaImmune=~Y (Yes) / N (No); nothing by default
+#FoodPoints=~Integer >= 0; 0 by default
+#Bites=~Integer >= 1; 1 by default
+#MinChunkAmount=~Integer >= 2; 2 by default
+#MaxChunkAmount=~Integer >= 2; 2 by default
+#WingVariations=~Integer >= 1; 1 by default
+#StandardKillScore=~Integer >= 0; 0 by default
+#AbstractedLaziness=~Integer >= 0; 0 by default
+#ShortCutSegments=~Integer >= 1; 1 by default
+#BigKillScore=~Integer >= 0; 0 by default
+#SmallKillScore=~Integer >= 0; 0 by default
+#PatherStepsPerFrame=~Integer >= 0; 0 by default
+#ExpeditionScore=~Integer >= 0; 0 by default
+#BodyChunkRadBonus=~Decimal (+ or -); 0 by default
+#BodyChunkMassBonus=~Decimal (+ or -); 0 by default
+#ConnectionElasticityReduction=~Decimal >= 0; 0 by default
+#VelocityFactor=~Decimal >= 0; 0 by default
+#HeadVelocityFactor=~Decimal >= 0; 0 by default
+#MaxSize=~Decimal >= 0; 0 by default
+#MinSize=~Decimal >= 0; 0 by default
+#PreyTrackerWeight=~Decimal >= 0; 0 by default
+#WingLengthFactor=~Decimal >= 0; 0 by default
+#LegLengthFactor=~Decimal >= 0; 0 by default
+#WhiskerLengthFactor=~Decimal >= 0; 0 by default
+#SmallWhiskerLength=~Decimal >= 0; 0 by default
+#BigWhiskerLength=~Decimal >= 0; 0 by default
+#LegScaleXFactor=~Decimal >= 0; 0 by default
+#ShellScaleYFactor=~Decimal >= 0; 0 by default
+#WhiskerShapeFactor=~Decimal >= 0; 0 by default
+#HueMax=~Decimal (+ or -); 0 by default
+#HueMin=~Decimal (+ or -); 0 by default
+#SaturationMax=~Decimal >= 0; 0 by default
+#SaturationMin=~Decimal >= 0; 0 by default
+#LinearSandboxCost=~Decimal >= 0; 0 by default
+#ExponentialSandboxCost=~Decimal >= 0; 0 by default
+#RoomPerformanceCost=~Decimal >= 0; 0 by default
+#BaseDamageResistance=~Decimal >= 0; 0 by default
+#ExplosionResistance=~Decimal >= 0; 0 by default
+#BodySizeEstimate=~Decimal >= 0; 0 by default
+#VisualRadius=~Decimal >= 0; 0 by default
+#WaterVision=~Decimal >= 0; 0 by default
+#ThroughSurfaceVision=~Decimal >= 0; 0 by default
+#MovementBasedVision=~Decimal >= 0; 0 by default
+#DangerousToPlayer=~Decimal >= 0; 0 by default
+#LungCapacity=~Decimal >= 0; 0 by default
+#CommunityInfluence=~Decimal >= 0; 0 by default
+#MeatMin=~Decimal >= 0; 0 by default
+#MeatMax=~Decimal >= 0; 0 by default
+#Scaryness=~Decimal >= 0; 0 by default
+#MinBuoyancy=~Decimal >= 0; 0 by default
+#MaxBuoyancy=~Decimal >= 0; 0 by default
+#SureToGetPreyDistance=~Decimal >= 0; 0 by default
+#HeadGlobalVelocityFactor=~Decimal >= 0; 0 by default
+#BaseStunResistance=~Decimal >= 0; 0 by default
+#ExplosionStunResistance=~Decimal >= 0; 0 by default
+#SpikeScaleFactor=~Decimal >= 0; 0 by default
+#ShockResistanceReductionFactor=~Decimal >= 0; 0 by default
+#SecondaryShellColorBonus=~Decimal >= 0; 0 by default
+#GlobalVelocityFactor=~Decimal >= 0; 0 by default
+#GlobalFlyingVelocityFactor=~Decimal >= 0; 0 by default
+#DamageReductionFactor=~Decimal >= 0; 0 by default
+#DeadShellChance=~Decimal >= 0; 0 by default
+#GrabbedShockChargeReduction=~Decimal (+ or -); 0 by default
+#WaterPathingResistance=~Decimal >= 0; 0 by default
+#BluntDamageResistance=~Decimal >= 0; 0 by default
+#BluntStunResistance=~Decimal >= 0; 0 by default
+#WaterDamageResistance=~Decimal >= 0; 0 by default
+#WaterStunResistance=~Decimal >= 0; 0 by default
+#StabDamageResistance=~Decimal >= 0; 0 by default
+#StabStunResistance=~Decimal >= 0; 0 by default
+#BiteDamageResistance=~Decimal >= 0; 0 by default
+#BiteStunResistance=~Decimal >= 0; 0 by default
+#ElectricDamageResistance=~Decimal >= 0; 0 by default
+#ElectricStunResistance=~Decimal >= 0; 0 by default
+#OffScreenSpeed=~Decimal >= 0; 0 by default
+#SurfaceFriction=~Decimal >= 0; 0 by default
+#Bounce=~Decimal >= 0; 0 by default
+#WaterRetardationImmunity=~Decimal >= 0; 0 by default
+#WaterFriction=~Decimal >= 0; 0 by default
+#AirFriction=~Decimal >= 0; 0 by default
+#ImpactThreshold=~Decimal >= 0; 0 by default
+#BodyChunkRadType=~NORMAL / SMALL / CENTIWING; NORMAL by default; IGNORES CASE
+#HeadVelocityType=~NORMAL / SMALL; NORMAL by default; IGNORES CASE
+#BodySizeGenerationType=~RANDOMRANGEPOW / RANDOMRANGE / STATICMIN / STATICMAX / FROMWORLDSTRING; RANDOMRANGEPOW by default; IGNORES CASE
+#ShockType=~NORMAL / SMALL / AQUACENTI; NORMAL by default; IGNORES CASE
+#ResistanceType=~NORMAL / RED / AQUACENTI / CENTIWING; NORMAL by default; IGNORES CASE
+#AllowedIdleTypes=~NORMAL / CENTIWING / AQUACENTI / AQUACENTIANDCENTIWING; NORMAL by default; IGNORES CASE
+#DynamicRelationshipType=~NORMAL / CENTIWING / RED; NORMAL by default; IGNORES CASE
+#VisualScoreTypes=~NORMAL / CENTIWING / RED / REDANDCENTIWING; NORMAL by default; IGNORES CASE
+#PreyTrackType=~NORMAL / RED; NORMAL by default; IGNORES CASE
+#ExcitementType=~NORMAL / CENTIWING / RED; NORMAL by default; IGNORES CASE
+#WingSizeType=~STATICLENGTHFACTOR / CENTIWING / AQUACENTI; STATICLENGTHFACTOR by default; IGNORES CASE
+#MainColorType=~CUSTOM / BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3; CUSTOM (uses HueMin, HueMax, SaturationMin and SaturationMax) by default; IGNORES CASE
+#LightFlashNoiseType=~NONE / RED / GREEN / BLUE; NONE by default; IGNORES CASE
+#BodySegmentType=~NORMAL / CENTIWING / AQUACENTI; NORMAL by default; IGNORES CASE
+#Grabability=~CANTGRAB / ONEHAND / BIGONEHAND / TWOHANDS / DRAG; nothing by default; IGNORES CASE
+#ShockColor=~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#ShortCutColor=~HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#HeadGlowMinColor=~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#HeadGlowMaxColor=~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#BodyBlackColor=~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#LightFlashColor=~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#WingColor=~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#StandardIconColor=~HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#BigIconColor=~HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#SmallIconColor=~HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#DevColor=~HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); RGBA:0~0~0~0 by default; IGNORES CASE
+#ShellColor=~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); nothing by default; IGNORES CASE
+#SecondaryShellColor=~BLACKCOLOR / WATERCOLOR1 / WATERCOLOR2 / WATERSURFACECOLOR1 / WATERSURFACECOLOR2 / WATERSHINECOLOR / FOGCOLOR / SHORTCUTSYMBOL / SKYCOLOR / SHORTCUTCOLOR1 / SHORTCUTCOLOR2 / SHORTCUTCOLOR3 or HSLA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1) or RGBA:Decimal (0-1)~Decimal (0-1)~Decimal (0-1)~Decimal (0-1); nothing by default; IGNORES CASE
+#SegmentSprite=~Sprite name; CentipedeSegment by default; CASE SENSITIVE
+#AdditionalShellTextureShader=~Shader name; AquapedeBody by default; CASE SENSITIVE
+#LegASprite=~Sprite name; CentipedeLegA by default; CASE SENSITIVE
+#LegBSprite=~Sprite name; CentipedeLegB by default; CASE SENSITIVE
+#WingSprite=~Sprite name; CentipedeWing by default; CASE SENSITIVE
+#WingShader=~Shader name; CicadaWing by default; CASE SENSITIVE
+#ShellSpikeSprite1=~Sprite name; Cicada8body by default; CASE SENSITIVE
+#ShellSpikeSprite2=~Sprite name; CentipedeSegment by default; CASE SENSITIVE
+#BellyShellSprite=~Sprite name; CentipedeBellyShell by default; CASE SENSITIVE
+#BackShellSprite=~Sprite name; CentipedeBackShell by default; CASE SENSITIVE
+#StandardIconSprite=~Sprite name; Kill_Centipede2 by default; CASE SENSITIVE
+#BigIconSprite=~Sprite name; Kill_Centipede3 by default; CASE SENSITIVE
+#SmallIconSprite=~Sprite name; Kill_Centipede1 by default; CASE SENSITIVE
+#DevName=~Name; the creature type name by default; CASE SENSITIVE
+#SmallUnlockID=~Name; nothing by default; CASE SENSITIVE
+#UnlockID=~Name; nothing by default; CASE SENSITIVE
+#BigUnlockID=~Name; nothing by default; CASE SENSITIVE
+#SmallParentUnlock=~MultiplayerUnlocks.SandboxUnlockID name; nothing by default; CASE SENSITIVE
+#ParentUnlock=~MultiplayerUnlocks.SandboxUnlockID name; nothing by default; CASE SENSITIVE
+#BigParentUnlock=~MultiplayerUnlocks.SandboxUnlockID name; nothing by default; CASE SENSITIVE
+#Relationships=~Multiple custom relations, separated by ";", each relation should be of the form: active position?(Y (Yes) / N (No))~target name(CreatureTemplate.Type name)~relation type(DoesntTrack / Ignores / Eats / Afraid / StayOutOfWay / AgressiveRival / Attacks / Uncomfortable / Antagonizes / PlaysWith / SocialDependent / Pack)~intensity(Decimal (0-1)); CASE SENSITIVE; Example: Y~Vulture~Afraid~0.75;N~BigEel~Eats~0.2
