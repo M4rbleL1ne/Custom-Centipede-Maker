@@ -11,7 +11,6 @@ static class InternalEnable
     internal static ILContext.Manipulator
         s_IL_Player_SlugcatGrab = IL_Player_SlugcatGrab,
         s_IL_Spear_HitSomething = IL_Spear_HitSomething,
-        s_IL_Player_CanMaulCreature = IL_Player_CanMaulCreature,
         s_IL_Centipede_ctor = IL_Centipede_ctor,
         s_IL_Centipede_Act = IL_Centipede_Act,
         s_IL_Centipede_Collide = IL_Centipede_Collide,
@@ -82,7 +81,6 @@ static class InternalEnable
     {
         s_IL_Player_SlugcatGrab = null!;
         s_IL_Spear_HitSomething = null!;
-        s_IL_Player_CanMaulCreature = null!;
         s_IL_Centipede_ctor = null!;
         s_IL_Centipede_Act = null!;
         s_IL_Centipede_Collide = null!;

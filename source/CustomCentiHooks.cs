@@ -171,19 +171,6 @@ public static class CustomCentiHooks
         return orig(self, food);
     }
 
-    internal static void IL_Player_CanMaulCreature(ILContext il)
-    {
-        var c = new ILCursor(il);
-        if (c.TryGotoNext(MoveType.After,
-            s_MatchCallOrCallvirt_Centipede_get_Edible))
-        {
-            c.Emit(OpCodes.Ldarg_1)
-             .EmitCentiCall(nameof(CustomCentiCalls.IsSmallFood));
-        }
-        else
-            s_logger.LogError("Couldn't ILHook Player.CanMaulCreature!");
-    }
-
     public static bool On_Centipede_get_AquacentiSwim(Func<Centipede, bool> orig, Centipede self)
     {
         return orig(self) || (self.Template.breedParameters is CustomCentiBreedParams props && props.Flags.Get(Swimming) && self.Submersion > .5f && !self.flying);
@@ -819,6 +806,7 @@ public static class CustomCentiHooks
 
     public static PathCost On_CentipedeAI_TravelPreference(On.CentipedeAI.orig_TravelPreference orig, CentipedeAI self, MovementConnection coord, PathCost cost)
     {
+        cost = orig(self, coord, cost);
         if (self.creature.creatureTemplate.breedParameters is CustomCentiBreedParams props && props.Flags.Get(Flying) && coord.destinationCoord.TileDefined && self.centipede is Centipede c && !c.AquacentiSwim)
         {
             if (!c.flying && !c.RatherClimbThanFly(coord.DestTile))
@@ -829,7 +817,7 @@ public static class CustomCentiHooks
                 return cost with { resistance = cost.resistance + (tProx < 2 ? 0f : LerpMap(tProx, 1f, 6f, 500f, 0f)) };
             }
         }
-        return orig(self, coord, cost);
+        return cost;
     }
 
     internal static void IL_CentipedeAI_Update(ILContext il)

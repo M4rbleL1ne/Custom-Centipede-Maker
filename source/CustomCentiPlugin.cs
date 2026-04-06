@@ -24,7 +24,7 @@ namespace CustomCentisMod;
 public sealed class CustomCentiPlugin : BaseUnityPlugin
 {
     internal const BindingFlags K_ALL_FLAGS = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
-    internal const string K_ID = "lb-fgf-m4r-ik.custom-centis", K_VERSION = "10.0.2";
+    internal const string K_ID = "lb-fgf-m4r-ik.custom-centis", K_VERSION = "10.0.21";
     [AllowNull] internal static Dictionary<string, CustomCentiCritob> s_dict;
     internal static HashSet<CreatureTemplate.Type>? s_majorCreatures = [];
     public static bool UnlockErrorMode;
@@ -84,7 +84,6 @@ public sealed class CustomCentiPlugin : BaseUnityPlugin
         On.Player.IsCreatureLegalToHoldWithoutStun += s_On_Player_IsCreatureLegalToHoldWithoutStun;
         IL.Spear.HitSomething += s_IL_Spear_HitSomething;
         On.MoreSlugcats.SlugNPCAI.GetFoodType += s_On_SlugNPCAI_GetFoodType;
-        IL.Player.CanMaulCreature += s_IL_Player_CanMaulCreature;
         var tp = typeof(Centipede);
         new Hook(tp.GetMethod("get_AquacentiSwim", K_ALL_FLAGS), s_On_Centipede_get_AquacentiSwim);
         new Hook(tp.GetMethod("get_AutomaticPickUp", K_ALL_FLAGS), s_On_Centipede_get_AutomaticPickUp);
@@ -227,12 +226,14 @@ public sealed class CustomCentiPlugin : BaseUnityPlugin
     public static CreatureTemplate.Relationship On_CreatureTemplate_CreatureRelationship_CreatureTemplate(On.CreatureTemplate.orig_CreatureRelationship_CreatureTemplate orig, CreatureTemplate self, CreatureTemplate crit)
     {
         var res = orig(self, crit);
-        if (self.breedParameters is CustomCentiBreedParams props && props._realRelationships.TryGetValue(new() { _a = self.type, _b = crit.type }, out var rel))
+        if (crit is null)
+            return new(CreatureTemplate.Relationship.Type.Ignores, 0f);
+        if (self.breedParameters is CustomCentiBreedParams props && props._realRelationships?.TryGetValue(new() { _a = self.type, _b = crit.type }, out var rel) is true)
         {
             res.type = rel._type;
             res.intensity = rel._intensity;
         }
-        else if (crit.breedParameters is CustomCentiBreedParams props2 && props2._realRelationships.TryGetValue(new() { _a = self.type, _b = crit.type }, out var rel2))
+        else if (crit.breedParameters is CustomCentiBreedParams props2 && props2._realRelationships?.TryGetValue(new() { _a = self.type, _b = crit.type }, out var rel2) is true)
         {
             res.type = rel2._type;
             res.intensity = rel2._intensity;
